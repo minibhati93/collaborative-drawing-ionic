@@ -17,6 +17,8 @@ Run the following command to build a sample tabs project:
 ```javascript
 ionic start collaborative-drawing-app tabs
 cordova plugin add cordova-plugin-inappbrowser
+cordova plugin add cordova-plugin-dialogs
+cordova plugin add cordova-plugin-x-toast
 ```
 ### How to run ?
 Clone this repository. Replace the www directory and run the following.
@@ -48,3 +50,5 @@ For complete documentation on the above features, refer to the Wiki
 │   │   │   ├── services
 ```
 
+## Screenshots
+![alt text](screenshots/drawing.gif "Draw on canvas")

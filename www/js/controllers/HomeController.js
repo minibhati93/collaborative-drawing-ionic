@@ -5,9 +5,24 @@
   function HomeController($scope, $ionicPopover, $http ,$state, $ionicModal){
 
          $scope.tools = { strokeSize : '20' , strokeColor: '#000000'};
+         $scope.activityName = 'Default';
  
          var strokeColor = "#000000";
          var strokeSize = 20;
+ 
+ 
+         $scope.selectedColorButton = function(hex){
+            //$scope.strokeColorFinal = hex;
+            strokeColor = hex;
+            //alert($scope.strokeColorFinal);
+         };
+
+         $scope.updateStrokeSize = function(){
+            //$scope.strokeSizeFinal = $scope.tools.strokeSize;
+            strokeSize = $scope.tools.strokeSize;
+            //console.log("$scope.strokeSizeFinal is: "+$scope.strokeSizeFinal)
+         };
+ 
          var paintCanvas = document.getElementById('canvas');
          paintCanvas.width = window.innerWidth;
          paintCanvas.height = window.innerHeight * (0.75);
@@ -165,14 +180,37 @@
             }
          }
  
+ 
+         /************************  Edit Activity Name  ************************/
+         $scope.editName = function(){
+ 
+             function onPrompt(results){
+                 if(results.buttonIndex == 1) return;
+                 $scope.activityName = results.input1;
+                 navigator.notification.alert('Activity name updated!', null, 'Activity', 'Ok');
+             }
+ 
+             navigator.notification.prompt(
+                               'Enter activity name',  // message
+                               onPrompt,                  // callback to invoke
+                               'Activity Name',            // title
+                               ['Cancel', 'Ok'],             // buttonLabels
+                               ''+$scope.activityName+''                 // defaultText
+                               );
+         };
+ 
+ 
          /************************  Choose Color Template  ************************/
-         
-         var template = '<ion-popover-view><ion-content><div class="list"><a class="item" ng-click="switchToTemplate(1)">Vehicle Maintenance</a><a class="item" ng-click="switchToTemplate(2)">Vehicle Bill of Sale</a></div></ion-content></ion-popover-view>';
-         
-         $scope.popover = $ionicPopover.fromTemplate(template, {
-                                                     scope: $scope
-                                                     });
-         
+ 
+         $scope.colors= [{name: 'Blue',hex: '#387ef5'},{name: 'Green' ,hex :'#66FF00'}, {name: 'Black' ,hex :'#000000'},  {name: 'Red' ,hex :'#FF0000'}, {name: 'Yellow' ,hex :'#ffc900'}, {name: 'Violet' ,hex :'#886aea'}, {name: 'Azure' ,hex :'#007FFF'}, {name: 'Beige', hex: '#F5F5DC'}, {name: 'Lime', hex: '#BFFF00'}, {name: 'Lavender', hex: '#BF94E4'}, {name: 'Crimson', hex: '#DC143C'} ];
+ 
+ 
+         $scope.popover = $ionicPopover.fromTemplateUrl('templates/color-popover.html', {
+            scope: $scope,
+            }).then(function(popover) {
+                $scope.popover = popover;
+         });
+ 
          $scope.openColorPopver = function($event){
             $scope.popover.show($event);
          };
@@ -182,16 +220,61 @@
          };
  
  
+         /************************  Erase drawing on Canvas  ************************/
+ 
+         $scope.eraseCanvas = function(){
+            strokeColor = '#ffffff';
+         };
+ 
+ 
+ 
+        /************************  Clear Canvas  ************************/
+ 
+         $scope.clearCanvas = function(){
+             stage.clear();
+             stage.removeChild(shape);
+             shape = new createjs.Shape();
+             stage.addChild(shape);
+             stageUpdate();
+         };
+
+        /************************  Choose Stroke Template  ************************/
+ 
+         $ionicPopover.fromTemplateUrl('templates/stroke-popover.html', {
+                                          scope: $scope,
+                                          }).then(function(popover) {
+                                                  $scope.strokePopover = popover;
+                                                  });
+ 
+         $scope.openStrokePopver = function($event) {
+            $scope.strokePopover.show($event);
+        };
+ 
         /************************** Save Canvas **********************************/
+ 
+         $scope.serializeCanvas = function(){
+             return paintCanvas.toDataURL();
+         };
  
         $scope.saveDrawing = function(){
             if(!window.localStorage.getItem("uuid")){
                  // alert("Please Log-in");
                  $scope.login();
             }
+            else{
+                 // alert("Go ahead");
+                 if($scope.activityName == 'Default'){
+                     window.localStorage.setItem('Untitled', $scope.serializeCanvas);
+                     $scope.activityName = 'Untitled';
+                 }
+                 else{
+                     window.localStorage.setItem($scope.activityName, $scope.serializeCanvas);
+                 }
+            }
         };
  
  
+        /************************** Google oauth **********************************/
  
         $ionicModal.fromTemplateUrl('templates/login-modal.html', {
             scope: $scope,
@@ -240,6 +323,8 @@
  
         $scope.verifyToken = function(accessToken){
              window.localStorage['uuid'] = encodeURIComponent(accessToken);
+             $scope.closeLogin();
+ 
         };
 
 

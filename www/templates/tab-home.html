@@ -2,23 +2,26 @@
     <ion-nav-buttons side="right">
         <a class="button button-clear button-positive" ng-click="saveDrawing()">Save</a>
     </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <a class="button button-clear button-positive" ng-click="editName()">{{ activityName }}</a>
+    </ion-nav-buttons>
 
-  <ion-content has-header="true" has-subheader="true">
-    <div class="canvas-container"> 
-      <canvas id="canvas"></canvas>
-    </div>
-    
-    <div class="toolbar-container">
-        <ion-scroll direction="x" class="wide-as-needed">
-            <a class="button icon ion-android-color-palette" ng-click="openColorPopver($event)">&nbsp;&nbsp;Color</a>
-            <a class="button icon ion-paintbrush" ng-click="openStrokePopver($event)">&nbsp;&nbsp;Stroke</a>
-            <a class="button icon ion-backspace" ng-click="clear()">&nbsp;&nbsp;Clear</a>
-            <a class="button icon ion-ipad" ng-click="eraseCanvas()">&nbsp;&nbsp;Erase</a>
-            <a class="button icon ion-android-microphone" ng-click="startRecording()">&nbsp;&nbsp;Record</a>
-            <a class="button icon ion-ios-videocam-outline" ng-click="startVideo()">&nbsp;&nbsp;Video</a>
-        </ion-scroll>
-    </div>
+    <ion-content has-header="true" has-subheader="true">
+        <div class="canvas-container">
+          <canvas id="canvas"></canvas>
+        </div>
 
-  </ion-content>
+        <div class="toolbar-container">
+            <ion-scroll direction="x" class="wide-as-needed">
+                <a class="button icon ion-android-color-palette" ng-click="openColorPopver($event)">&nbsp;&nbsp;Color&nbsp;&nbsp;</a>
+                <a class="button icon ion-paintbrush" ng-click="openStrokePopver($event)">&nbsp;&nbsp;Stroke&nbsp;&nbsp;</a>
+                <a class="button icon ion-backspace" ng-click="clearCanvas()">&nbsp;&nbsp;Clear&nbsp;&nbsp;</a>
+                <a class="button icon ion-ipad" ng-click="eraseCanvas()">&nbsp;&nbsp;Erase&nbsp;&nbsp;</a>
+<!--                <a class="button icon ion-android-microphone" ng-click="startRecording()">&nbsp;&nbsp;Record&nbsp;&nbsp;</a>-->
+<!--                <a class="button icon ion-ios-videocam-outline" ng-click="startVideo()">&nbsp;&nbsp;Video&nbsp;&nbsp;</a>-->
+            </ion-scroll>
+        </div>
+
+    </ion-content>
 
 </ion-view>
