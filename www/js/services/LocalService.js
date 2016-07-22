@@ -252,7 +252,10 @@
         };
  
         /************************** Save Canvas **********************************/
-
+ 
+         $scope.serializeCanvas = function(){
+             return paintCanvas.toDataURL();
+         };
  
         $scope.saveDrawing = function(){
             if(!window.localStorage.getItem("uuid")){
@@ -266,11 +269,7 @@
                      $scope.activityName = 'Untitled';
                  }
                  else{
-                     var canvasData = paintCanvas.toDataURL();
-                     // alert(canvasData);
-                     var data = {canvasData: canvasData, modified: new Date(), created: new Date()};
-                     // console.log(JSON.stringify(data));
-                     window.localStorage.setItem($scope.activityName, JSON.stringify(data));
+                     window.localStorage.setItem($scope.activityName, $scope.serializeCanvas);
                  }
             }
         };

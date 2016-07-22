@@ -1,6 +1,6 @@
 <ion-view view-title="Dashboard" ng-controller="HomeController">
     <ion-nav-buttons side="right">
-        <a class="button button-clear button-positive" ng-click="saveDrawing()">Save</a>
+        <a class="button button-clear button-positive" href="#/list">List</a>
     </ion-nav-buttons>
     <ion-nav-buttons side="left">
         <a class="button button-clear button-positive" ng-click="editName()">{{ activityName }}</a>
@@ -17,6 +17,7 @@
                 <a class="button icon ion-paintbrush" ng-click="openStrokePopver($event)">&nbsp;&nbsp;Stroke&nbsp;&nbsp;</a>
                 <a class="button icon ion-backspace" ng-click="clearCanvas()">&nbsp;&nbsp;Clear&nbsp;&nbsp;</a>
                 <a class="button icon ion-ipad" ng-click="eraseCanvas()">&nbsp;&nbsp;Erase&nbsp;&nbsp;</a>
+                <a class="button icon ion-ios-download" ng-click="saveDrawing()">&nbsp;&nbsp;Save&nbsp;&nbsp;</a>
 <!--                <a class="button icon ion-android-microphone" ng-click="startRecording()">&nbsp;&nbsp;Record&nbsp;&nbsp;</a>-->
 <!--                <a class="button icon ion-ios-videocam-outline" ng-click="startVideo()">&nbsp;&nbsp;Video&nbsp;&nbsp;</a>-->
             </ion-scroll>

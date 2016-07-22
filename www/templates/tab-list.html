@@ -1,0 +1,26 @@
+<ion-view view-title="List" ng-controller="ListController">
+
+    <ion-content>
+        <div class="row" ng-repeat="image in images" ng-if="$index % 4 === 0">
+            <div class="col col-25 collection-tile-full" ng-if="$index < images.length">
+                <div class ="collection-panel collection-panel-outer">
+                    <img ng-src="{{images[$index].src}}" class="collection-img"  width="100%" />
+                    <span>{{images[$index].name }}</span>
+                </div>
+            </div>
+            <div class="col col-25 collection-tile-full" ng-if="$index + 1 < images.length">
+                <div class ="collection-panel collection-panel-outer">
+                    <img ng-src="{{images[$index + 1].src}}" class="collection-img"  width="100%" />
+                    <span>{{images[$index + 1].name }}</span>
+                </div>
+            </div>
+            <div class="col col-25 collection-tile-full" ng-if="$index + 2 < images.length">
+                <div class ="collection-panel collection-panel-outer">
+                    <img ng-src="{{images[$index + 2].src}}" class="collection-img"  width="100%" />
+                    <span>{{images[$index + 2].name }}</span>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

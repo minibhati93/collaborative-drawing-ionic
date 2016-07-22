@@ -4,7 +4,7 @@ A collaborative touch enabled ionic application for note taking. Draw notes on c
 
 ## Table of contents
 * [Getting started] (#getting-started)
-* [Tools and Libraries] (#libraries-used)
+* [Tools and Libraries] (#tools-and-libraries)
 * [Documentation] (#documentation)
 * [File Structure] (#file-structure)
 * [Screenshots] (#screenshots)

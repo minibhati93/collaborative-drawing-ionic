@@ -36,9 +36,9 @@ angular.module('starter', ['ionic' ])
       url: '/home',
       templateUrl: 'templates/tab-home.html'
   })
-    .state('login',{
-       url: '/login',
-       templateUrl: 'templates/tab-login.html'
+    .state('list', {
+       url: '/list',
+       templateUrl: 'templates/tab-list.html'
   });
 
 
