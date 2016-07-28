@@ -1,8 +1,8 @@
 (function(){
   angular.module('starter')
-  .controller('HomeController', ['$scope', '$ionicPopover', '$http' ,'$state', '$ionicModal', HomeController]);
+  .controller('HomeController', ['$scope', '$ionicPopover', '$http' ,'$state', '$ionicModal', 'AuthService' ,HomeController]);
   
-  function HomeController($scope, $ionicPopover, $http ,$state, $ionicModal){
+  function HomeController($scope, $ionicPopover, $http ,$state, $ionicModal, AuthService){
 
          $scope.tools = { strokeSize : '20' , strokeColor: '#000000'};
          $scope.activityName = 'Default';
@@ -257,7 +257,7 @@
         $scope.saveDrawing = function(){
             if(!window.localStorage.getItem("uuid")){
                  // alert("Please Log-in");
-                 $scope.login();
+                 $scope.openLoginModal();
             }
             else{
                  // alert("Go ahead");
@@ -292,7 +292,7 @@
         };
          
          // Open the login modal
-        $scope.login = function() {
+        $scope.openLoginModal = function() {
             $scope.modalA.show();
         };
  
@@ -328,9 +328,27 @@
              $scope.closeLogin();
  
         };
-
-
  
+ 
+        $scope.data = {};
+
+        $scope.validateEmail = function(email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+        }
+
+        $scope.login = function() {
+            // console.log("LOGIN user: " + $scope.data.email + " - PW: " + $scope.data.password);
+            if(!$scope.validateEmail($scope.data.email)){
+                return false;
+            }
+            AuthService.doAuth($scope.data.email, $scope.data.password, 'login').then(function(response){
+                alert(response);
+            });
+        };
+
+        
+        
  
 
   }
