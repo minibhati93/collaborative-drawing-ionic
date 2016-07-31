@@ -3,6 +3,40 @@
   .controller('HomeController', ['$scope', '$ionicPopover', '$http' ,'$state', '$ionicModal', 'AuthService' ,HomeController]);
   
   function HomeController($scope, $ionicPopover, $http ,$state, $ionicModal, AuthService){
+ 
+         function showSuccessToast(message){
+             window.plugins.toast.showWithOptions({
+                  message: message,
+                  duration: "short", // 2000 ms
+                  position: "bottom",
+                  styling: {
+                  opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+                  backgroundColor: '#00CD00', // make sure you use #RRGGBB. Default #333333
+                  textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+                  textSize: 17, // Default is approx. 13.
+                  cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
+                  horizontalPadding: 20, // iOS default 16, Android default 50
+                  verticalPadding: 16 // iOS default 12, Android default 30
+                  }
+              });
+         }
+ 
+         function showErrorToast(message){
+             window.plugins.toast.showWithOptions({
+                  message: message,
+                  duration: "short", // 2000 ms
+                  position: "bottom",
+                  styling: {
+                  opacity: 0.75, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+                  backgroundColor: '#FF3030', // make sure you use #RRGGBB. Default #333333
+                  textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+                  textSize: 17, // Default is approx. 13.
+                  cornerRadius: 16, // minimum is 0 (square). iOS default 20, Android default 100
+                  horizontalPadding: 20, // iOS default 16, Android default 50
+                  verticalPadding: 16 // iOS default 12, Android default 30
+                  }
+              });
+         }
 
          $scope.tools = { strokeSize : '20' , strokeColor: '#000000'};
          $scope.activityName = 'Default';
@@ -255,24 +289,51 @@
 
  
         $scope.saveDrawing = function(){
-            if(!window.localStorage.getItem("uuid")){
-                 // alert("Please Log-in");
-                 $scope.openLoginModal();
-            }
-            else{
-                 // alert("Go ahead");
-                 if($scope.activityName == 'Default'){
-                     window.localStorage.setItem('Untitled', $scope.serializeCanvas);
-                     $scope.activityName = 'Untitled';
-                 }
-                 else{
-                     var canvasData = paintCanvas.toDataURL();
-                     // alert(canvasData);
-                     var data = {canvasData: canvasData, modified: new Date(), created: new Date()};
-                     // console.log(JSON.stringify(data));
-                     window.localStorage.setItem($scope.activityName, JSON.stringify(data));
-                 }
-            }
+            // if(!window.localStorage.getItem("uuid")){
+            //      // alert("Please Log-in");
+            //     //  $scope.openLoginModal();
+            // }
+            // else{
+                // alert("Go ahead");
+                if($scope.activityName == 'Default'){
+                    window.localStorage.setItem('Untitled', $scope.serializeCanvas);
+                    $scope.activityName = 'Untitled';
+                }
+                var canvasData = paintCanvas.toDataURL();
+                // alert(canvasData);
+                var data = {'canvasData': canvasData, 'modified': new Date(), 'created': new Date()};
+                // alert(JSON.stringify(data));
+                window.localStorage.setItem($scope.activityName, JSON.stringify(data));
+                 
+            //}
+        };
+
+        /************************  Choose Background Template  ************************/
+        var width = window.innerWidth;
+        var height = window.innerHeight * (0.75);
+
+        $scope.img = { 'width': width, 'height': height };
+
+        $scope.backgrounds = [{name: 'Sky', src: 'img/background/sky.png'},{name: 'Blue', src: 'img/background/orange.png'}];
+ 
+        $ionicPopover.fromTemplateUrl('templates/background-popover.html', {
+                                          scope: $scope,
+                                          }).then(function(popover) {
+                                                  $scope.backgroundPopover = popover;
+                                                  });
+ 
+        $scope.openBackgroundPopver = function($event) {
+            $scope.backgroundPopover.show($event);
+        };
+
+        $scope.selectedBackgroundButton = function(src){
+
+            context = paintCanvas.getContext("2d");
+            var imageObj = new Image();
+            imageObj.onload = function() {
+                context.drawImage(imageObj, 0, 0);
+            };
+            imageObj.src = src;
         };
  
  
@@ -297,39 +358,6 @@
         };
  
  
-        $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-         // var clientId = "129939593061-2jvlmucpf0pk2rng15n518v68med5vta.apps.googleusercontent.com";
-        var requestToken = "";
-        var accessToken = "";
-        var clientId = "129939593061-2jvlmucpf0pk2rng15n518v68med5vta.apps.googleusercontent.com";
-        var clientSecret = "QL50fc0sEZEnvJi7DH74urL2";
- 
-        $scope.googleOauth = function(){
-             var ref = window.open('https://accounts.google.com/o/oauth2/auth?client_id=' + clientId + '&redirect_uri=http://localhost/callback&scope=https://www.googleapis.com/auth/userinfo.email&approval_prompt=force&response_type=code&access_type=offline', '_blank', 'location=no');
-             ref.addEventListener('loadstart', function(event) {
-                      if((event.url).startsWith("http://localhost/callback")) {
-                      requestToken = (event.url).split("code=")[1];
-                      $http({method: "post", url: "https://accounts.google.com/o/oauth2/token", data: "client_id=" + clientId + "&client_secret=" + clientSecret + "&redirect_uri=http://localhost/callback" + "&grant_type=authorization_code" + "&code=" + requestToken })
-                      .success(function(data) {
-                               accessToken = data.access_token;
-                               $scope.verifyToken(accessToken);
-                               })
-                      .error(function(data, status) {
-                             alert("ERROR: " + data);
-                             });
-                      ref.close();
-                      }
-                      });
-        };
- 
- 
-        $scope.verifyToken = function(accessToken){
-             window.localStorage['uuid'] = encodeURIComponent(accessToken);
-             $scope.closeLogin();
- 
-        };
- 
- 
         $scope.data = {};
 
         $scope.validateEmail = function(email) {
@@ -342,10 +370,41 @@
             if(!$scope.validateEmail($scope.data.email)){
                 return false;
             }
+            $scope.data.email = $scope.data.email.toLowerCase();
+    
             AuthService.doAuth($scope.data.email, $scope.data.password, 'login').then(function(response){
-                alert(response);
+                // alert(JSON.stringify(response));
+                var result = JSON.stringify(response);
+                console.log(result);
+                if(response.data.result == 'ok'){
+                      showSuccessToast('Login successful!');
+                      window.localStorage.setItem('uuid', $scope.data.email);
+                      $scope.closeLogin();
+                }
+                else if(response.data.result == 'wrong'){
+                      showErrorToast('Incorrect password or email address');
+                }
+                else{
+                      showErrorToast('Login failed. Sign up');
+                }
+                                                                                      
+          
             });
         };
+ 
+         $scope.register = function() {
+            // console.log("LOGIN user: " + $scope.data.email + " - PW: " + $scope.data.password);
+            if(!$scope.validateEmail($scope.data.email)){
+                return false;
+            }
+            AuthService.doAuth($scope.data.email, $scope.data.password, 'register').then(function(response){
+                // alert(JSON.stringify(response));
+                var result = JSON.stringify(response);
+                console.log(result);
+
+            });
+        };
+
 
         
         

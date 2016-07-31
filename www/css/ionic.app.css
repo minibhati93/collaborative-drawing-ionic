@@ -9844,40 +9844,13 @@ a.button {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(37, 33, 33, 0.06); }
 
-.collection-tile-full {
-  max-width: 265px;
-  min-width: 264px;
-  border-radius: 0px 0px 0px 0px;
-  height: 330px; }
-
-.collection-img {
-  /*margin-left: 6px;*/
-  /*border-radius: 0px 0px 0px 0px;*/
-  width: 221px;
-  height: 195px; }
-
-.collection-panel {
-  -webkit-transition: .2s ease-in-out;
-  -moz-transition: .2s ease-in-out;
-  transition: .2s ease-in-out; }
-
-.collection-panel:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  -webkit-transform: translateY();
-  -moz-transform: translateY();
-  transform: translateY(); }
-
-.collection-panel-body {
-  border-radius: 0px 0px 0px 0px;
-  padding: 6px 0px 6px 0px;
-  border: 1px solid #e2e2e2;
-  background: #fff; }
-
-.collection-panel-outer {
-  border-radius: 0px 0px 0px 0px;
-  border: #222;
-  text-align: center;
-  padding: 5px 5px 5px 5px; }
+.img-div {
+  border: 1px solid #dddddd;
+  margin: 10px; }
+  .img-div:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    -webkit-transform: translateY();
+    -moz-transform: translateY();
+    transform: translateY(); }
