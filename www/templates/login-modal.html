@@ -5,13 +5,16 @@
       <button class="button button-clear button-positive" ng-click="closeLogin()">Close</button>
     </div>
   </ion-header-bar>
-  <ion-content>
-      
-      <button class="button button-positive icon icon-left ion-social-google" ng-click="googleOauth()">
-          Sign in with Google
-      </button>
-
-      
-     
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="Email" ng-model="data.email">
+                  </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="data.password">
+                  </label>
+      </div>
+      <button class="button button-block button-calm" ng-click="login()">Login</button>
+      <button class="button button-block button-calm" ng-click="register()">Sign Up</button>
   </ion-content>
 </ion-modal-view>
